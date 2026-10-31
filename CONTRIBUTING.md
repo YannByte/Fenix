@@ -5,7 +5,7 @@
 ## 新增 Skill
 
 1. 先明确要解决的具体问题，检查[收录范围](SCOPE.md)和[技能清单](skills/README.md)。
-2. 在 `skills/` 下创建小写英文和连字符命名的独立目录。可复制 [Skill 模板](assets/skill-template/SKILL.md.template)为新目录中的 `SKILL.md`，替换名称、描述及示例正文。模板不属于可安装的 Skill。
+2. 在 `skills/` 下按[仓库命名规则](AGENTS.md#内容组织)创建独立目录。可复制 [Skill 模板](assets/skill-template/SKILL.md.template)为新目录中的 `SKILL.md`，替换名称、描述及示例正文。模板不属于可安装的 Skill。
 3. 按实际需要附带脚本、参考资料或模板，避免为尚无使用场景的内容增加结构。
 4. 在 `skills/README.md` 中添加名称、用途和入口。
 5. 使用公开或合成材料验证，说明已验证内容及限制。

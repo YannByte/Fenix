@@ -39,8 +39,8 @@ class VerifyRepoTests(unittest.TestCase):
 
     def test_repository_template_can_become_a_skill(self):
         template = Path(__file__).resolve().parents[1] / "assets/skill-template/SKILL.md.template"
-        self.write("skills/example-skill/SKILL.md", template.read_text(encoding="utf-8"))
-        self.write("skills/README.md", "| [example-skill](./example-skill/SKILL.md) | Example |\n")
+        self.write("skills/fenix-example-skill/SKILL.md", template.read_text(encoding="utf-8"))
+        self.write("skills/README.md", "| [fenix-example-skill](./fenix-example-skill/SKILL.md) | Example |\n")
         self.assertEqual(verify(self.root), ([], 1))
 
     def test_name_must_match_directory(self):

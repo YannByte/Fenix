@@ -4,7 +4,7 @@ Fenix 是 Yann 的开源 AI Agent Skill 库。保留用户已有修改，按任�
 
 ## 内容组织
 
-- Skill 放在 `skills/<skill-name>/`，目录名使用小写英文和连字符。
+- Skill 放在 `skills/<skill-name>/`，名称统一使用 `fenix-` 前缀，目录名使用小写英文和连字符。
 - 每个 Skill 必须有 `SKILL.md`，明确用途、触发条件、前置条件和执行步骤。
 - `SKILL.md` 的 frontmatter 包含 `name` 和 `description`；名称与目录一致。
 - 脚本放在 `scripts/`，参考资料放在 `references/`，模板与静态资源放在 `assets/`；按实际需要创建目录。

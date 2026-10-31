@@ -1,9 +1,9 @@
 ---
-name: example-skill
+name: fenix-example-skill
 description: 说明解决什么问题、何时触发；补充不适用的场景。
 ---
 
-# Example Skill
+# Fenix Example Skill
 
 ## 用途与完成标准
 
