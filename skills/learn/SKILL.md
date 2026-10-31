@@ -3,16 +3,11 @@ name: learn
 description: "Runs a six-phase research workflow from source bundle to publish-ready output. Use when researching an unfamiliar domain or compiling materials into one reference. Not for quick lookups or single-file reads."
 license: LICENSE
 metadata:
-  upstream: https://github.com/tw93/Waza
-  upstream-version: "3.41.0"
-  upstream-commit: "df1ef2390e89d70dee07f928ac09aa7ba4b90299"
   when_to_use: "学习一下, 深入研究, 研究一下, 整理成文章, 把这批材料整理, 一站式参考, 一篇就够, 整理成长文, research, deep dive, help me understand, compile sources, unfamiliar domain"
   dispatch_intent: "Deep research, unfamiliar domain, compile sources into output"
 ---
 
 # Learn: From Raw Materials to Published Output
-
-Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Support the user's thinking; do not replace it.
 

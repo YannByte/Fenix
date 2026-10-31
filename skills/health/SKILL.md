@@ -3,16 +3,11 @@ name: health
 description: "Audits agent config, instruction drift, hooks or MCP, and AI maintainability. Use when Claude, Codex, or Pi setup looks wrong. Not for application bugs or PR review."
 license: LICENSE
 metadata:
-  upstream: https://github.com/tw93/Waza
-  upstream-version: "3.41.0"
-  upstream-commit: "df1ef2390e89d70dee07f928ac09aa7ba4b90299"
   when_to_use: "检查claude, 检查codex, 检查pi, Codex 配置, Pi 配置, agent instructions, 健康度, 配置检查, 配置对不对, AI coding 腐化, Claude ignoring instructions, Pi coding agent, check config, settings not working, audit config"
   dispatch_intent: "Codex/Claude/Pi ignoring instructions, agent config audit, hooks/MCP broken, health token usage, AI coding code rot, risk-backed hotspot ownership, unreachable project constraints, unclear context, missing verification, stale verifier output"
 ---
 
 # Health: Agent-Assisted Engineering Health
-
-Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Audit the current project's agent setup and AI coding maintainability against this framework:
 `agent config → instruction surfaces → tools/runtime → verifiers → maintainability`
@@ -72,7 +67,7 @@ $HEALTH_LAUNCHER = @(
   "<skill-base-dir>/skills/health/scripts/run-health.ps1"
 ) | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
 if (-not $HEALTH_LAUNCHER) {
-  throw "Health launcher not found under the installed skill base; reinstall Waza."
+  throw "Health launcher not found under the installed skill base; reinstall the health skill."
 }
 $POWERSHELL = Join-Path ([Environment]::SystemDirectory) "WindowsPowerShell\v1.0\powershell.exe"
 & "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" collect "$HEALTH_SCOPE"
@@ -91,7 +86,7 @@ for candidate in \
   [ -f "$candidate" ] && HEALTH_SCRIPT="$candidate" && break
 done
 if [ ! -f "${HEALTH_SCRIPT:-}" ]; then
-  echo "health collect-data.sh not found under the installed skill base; reinstall Waza"
+  echo "health collect-data.sh not found under the installed skill base; reinstall the health skill"
   exit 1
 fi
 BASH_ENV= ENV= /bin/bash -p "$HEALTH_SCRIPT" "$HEALTH_SCOPE"

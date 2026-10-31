@@ -3,16 +3,11 @@ name: write
 description: "Rewrites and polishes Chinese or English prose, technical instructions, and product copy. Use when drafting, editing, localizing, or cutting AI tone. Not for code comments or commit messages."
 license: LICENSE
 metadata:
-  upstream: https://github.com/tw93/Waza
-  upstream-version: "3.41.0"
-  upstream-commit: "df1ef2390e89d70dee07f928ac09aa7ba4b90299"
   when_to_use: "改稿, 润色, 去AI味, 帮我写文案, 审稿, 文档review, 技术说明改写, 指令消歧, clarify instructions, technical writing, 本地化文案, 多语言文案, i18n copy, localization copy, check this document, 推特, twitter, X推文, tweet, social post, draft, edit text, proofread, sound natural, polish, rewrite"
   dispatch_intent: "Writing, editing prose, clarify technical instructions, polish, release notes, launch/social copy, remove AI tone"
 ---
 
 # Write: Cut the AI Taste
-
-Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Strip AI patterns from prose and rewrite it to sound human. Do not improve vocabulary; remove the performance of improvement.
 
@@ -114,11 +109,11 @@ for candidate in \
   "<skill-base-dir>/skills/write/scripts/check-punctuation.sh"; do
   [ -f "$candidate" ] && GATE="$candidate" && break
 done
-[ -f "${GATE:-}" ] || { echo "punctuation gate not found under the installed skill base; reinstall Waza" >&2; exit 1; }
+[ -f "${GATE:-}" ] || { echo "punctuation gate not found under the installed skill base; reinstall the write skill" >&2; exit 1; }
 bash "$GATE" --lang <zh|en|ja|auto> <file>   # or pipe text via stdin
 ```
 
-Replace `<skill-base-dir>` with the installed Write skill or Waza dispatcher directory. The first path covers direct/plugin installs; the second covers the inlined-root release ZIP.
+Replace `<skill-base-dir>` with the installed Write skill directory or the collection root. The first path covers a standalone skill directory; the second covers a collection containing `skills/write/`.
 
 It enforces character-level punctuation by locale and skips code, URLs, and link targets; the script header documents the rules, `--fix`, and `--lang auto` routing. Fix every finding while preserving meaning, and pass an explicit `--lang` for mixed-locale or predominantly-English text. Quote direction and other judgment calls stay with you and the reference files.
 

@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """Fetch Feishu/Lark document as Markdown via Feishu Open API.
 
-Special thanks to joeseesun for the excellent qiaomu-markdown-proxy project,
-which inspired the Feishu API integration and document parsing approach here.
-https://github.com/joeseesun/qiaomu-markdown-proxy
-
 Default path:
     pip install requests
 

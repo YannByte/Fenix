@@ -3,18 +3,13 @@ name: check
 description: "Reviews diffs, PRs, release readiness, and publishing follow-through. Use when asked to review, triage issues or PRs, or ship. Not for debugging root causes or prose."
 license: LICENSE
 metadata:
-  upstream: https://github.com/tw93/Waza
-  upstream-version: "3.41.0"
-  upstream-commit: "df1ef2390e89d70dee07f928ac09aa7ba4b90299"
   when_to_use: "review, 看看代码, 检查一下, 合并前, 看看issue, 看看PR, release, publish, push, 发布, 提交, close issue, 关闭issue, release reaction, 发布表情, before merge, 值得发布, code review, code-review, audit, 项目体检, 项目评分, scorecard"
   dispatch_intent: "Code review, before merge, release gates, generated artifacts, safety sinks, publish/push/reaction follow-through, triage issues/PRs, project-wide code-quality audit scorecard"
 ---
 
 # Check: Review Before You Ship
 
-Prefix your first line with 🥷 inline, not as its own paragraph.
-
-> Note: `/review` is a built-in Anthropic plugin command for PR review. Waza uses `/check` (or the alias `code-review`) instead. Do not re-trigger `/review` from within this skill.
+> Note: `/review` is a built-in Anthropic plugin command for PR review. Use `/check` (or the alias `code-review`) for this skill. Do not re-trigger `/review` from within this skill.
 
 Read the diff and find the problems. Review, audit, triage, and readiness requests are report-only; apply fixes only under explicit repair authorization still in force for the same task. Done means the requested review surface is covered and every verification claim comes from this session.
 
@@ -68,7 +63,7 @@ Before any mode, run [Project Context Extraction](#project-context-extraction) a
 
 ## Project Context Extraction
 
-This is Waza's public, standalone code-review capability; it never depends on private machine paths or unpublished instructions. Learn the project from the diff and its public context (manifests, CI workflows, AGENTS/CLAUDE files, release notes) until you know its verification commands, generated or protected files, release artifacts, and domain risks. The shape is in `references/project-context.md`.
+This skill provides standalone code review without depending on private machine paths or unpublished instructions. Learn the project from the diff and its public context (manifests, CI workflows, AGENTS/CLAUDE files, release notes) until you know its verification commands, generated or protected files, release artifacts, and domain risks. The shape is in `references/project-context.md`.
 
 - Where project context and this skill overlap and both can be met, satisfy the stricter one. An explicit project exception wins and the report names it; stricter is not a licence to overrule a written decision or reorder the host's instruction precedence.
 - Prefer a verification command the project names, and read the workflow rather than the sentence describing it. A doc claiming CI enforces something is a claim; a check that runs on only one side (local or CI) means a green run there predicts nothing about the other.

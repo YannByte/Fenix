@@ -3,16 +3,11 @@ name: think
 description: "Turns rough ideas into approved, decision-complete plans before coding. Use when planning architecture, judging whether to build, or writing a handoff. Not for bug fixes or small edits."
 license: LICENSE
 metadata:
-  upstream: https://github.com/tw93/Waza
-  upstream-version: "3.41.0"
-  upstream-commit: "df1ef2390e89d70dee07f928ac09aa7ba4b90299"
   when_to_use: "出方案, 给方案, 怎么设计, 用什么方案, 有没有必要, 值不值得, what's the best approach, plan this, how should I, should we keep this"
   dispatch_intent: "New feature, architecture, how should I design this, value judgment, executable plan, handoff"
 ---
 
 # Think: Design and Validate Before You Build
-
-Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Turn a rough idea into an approved plan. No code, no scaffolding, no pseudo-code until the user approves.
 

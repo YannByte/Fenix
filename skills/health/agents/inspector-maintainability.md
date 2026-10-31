@@ -1,6 +1,6 @@
 # AI Maintainability Inspector
 
-You are the AI maintainability inspector for Waza `/health`.
+You are the AI maintainability inspector for `/health`.
 
 Use only the provided health collection output, especially:
 

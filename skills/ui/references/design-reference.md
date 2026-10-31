@@ -202,9 +202,9 @@ These patterns appear in the majority of AI-generated interfaces. Each one has a
 | Modals as a lazy escape for overflow UI | Interrupts flow and breaks browser back navigation; used when an inline expansion, drawer, or separate page would be better | Inline expand, detail panel, or dedicated route; modals only when the action truly requires focus-lock |
 | `transition: all` or animating width/height/padding/margin | Forces the browser into layout recalculation on every frame | List exact properties (`transition-property: transform, opacity`; Tailwind's `transition-transform` covers `transform, translate, scale, rotate`, use `transition-[scale,opacity,filter]` for mixed properties); use `grid-template-rows: 0fr to 1fr` for height reveals |
 
-## Reference-site Brand Presets (awesome-design-md)
+## Reference-site Brand Presets
 
-`VoltAgent/awesome-design-md` maintains DESIGN.md files extracted from real-world brand sites. Running `npx getdesign@latest add <brand>` drops the file into the project root, giving the agent concrete token values to decompose rather than reasoning from memory.
+A DESIGN.md preset supplies design tokens extracted from a reference site. Running `npx getdesign@latest add <brand>` drops the file into the project root, giving the agent concrete token values to decompose rather than reasoning from memory.
 
 **Usage rule:** never auto-run the command. Offer it as an option during direction lock, run it only with explicit user approval, and treat the result as seed decomposition material, not a finished direction. After an approved run, read the generated `DESIGN.md` at project root and do the three-property decomposition from direction question 2 in `SKILL.md` against that file rather than from memory; the user still names the aesthetic precisely.
 
@@ -277,4 +277,6 @@ When asked for design options, give at least 3 variations spread across genuinel
 
 ---
 
-*Rules in Reflex Fonts, Font Selection, OKLCH, Theme Matrix, Absolute Bans, the motion rules, and the AI Slop Test adapted from [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0). DESIGN.md Scaffold adapted from [getdesign.md](https://getdesign.md) (MIT); concept credited to Google Stitch. Content Authenticity, Multi-Card Alignment, and Strategic Omissions inspired by [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill).*
+<!-- Modified: branding and attribution placement were adjusted for this collection. -->
+
+[Source attribution and modification notices](../../../THIRD_PARTY_NOTICES.md).

@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class WazaSkillTests(unittest.TestCase):
+class SkillHelperTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="fenix-skills-")
         self.addCleanup(self.temp.cleanup)
@@ -126,7 +126,7 @@ class WazaSkillTests(unittest.TestCase):
                 self.assertIn("usage:", result.stdout)
 
     def test_read_cli_uses_loopback_and_never_third_party_extractors(self):
-        result = self.command([sys.executable, str(ROOT / "tests/waza_read_fetch_smoke.py")])
+        result = self.command([sys.executable, str(ROOT / "tests/read_fetch_smoke.py")])
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 

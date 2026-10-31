@@ -2,7 +2,7 @@
 
 ## Helper Directory
 
-Resolve once for the built-in fetcher, Feishu, or WeChat helper. Replace `<skill-base-dir>` with the installed Read skill or Waza dispatcher directory:
+Resolve once for the built-in fetcher, Feishu, or WeChat helper. Replace `<skill-base-dir>` with the installed Read skill directory or the collection root:
 
 ```bash
 READ_SCRIPT_DIR=""
@@ -15,7 +15,7 @@ for candidate in \
   fi
 done
 if [ -z "$READ_SCRIPT_DIR" ]; then
-  echo "read helper scripts not found under the installed skill base; reinstall Waza" >&2
+  echo "read helper scripts not found under the installed skill base; reinstall the read skill" >&2
   exit 1
 fi
 ```
@@ -79,7 +79,7 @@ If local extraction fails, a third-party PDF reader may be used only for a publi
 
 ```bash
 # Best quality (requires: pip install marker-pdf)
-marker_single /path/to/file.pdf --output_dir "${READ_OUTPUT_DIR:-/tmp/waza-read}"
+marker_single /path/to/file.pdf --output_dir "${READ_OUTPUT_DIR:-/tmp/read-output}"
 
 # Fast, text-heavy PDFs (requires: brew install poppler)
 pdftotext -layout /path/to/file.pdf - | sed 's/\f/\n---\n/g'

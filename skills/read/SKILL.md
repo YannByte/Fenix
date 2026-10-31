@@ -3,16 +3,11 @@ name: read
 description: "Fetches URLs and PDFs, then summarizes or returns clean Markdown; can also search the web through DeepSeek when built-in search is thin. Use when asked to read, fetch, quote, cite, convert, or save a URL or PDF. Not for local text files already in the repo."
 license: LICENSE
 metadata:
-  upstream: https://github.com/tw93/Waza
-  upstream-version: "3.41.0"
-  upstream-commit: "df1ef2390e89d70dee07f928ac09aa7ba4b90299"
   when_to_use: "看这个链接, 读一下, 看看这个网页, 抓取网页, 搜不到, 换个搜索, DeepSeek 搜索, read this, check this URL, fetch this page, search with DeepSeek"
   dispatch_intent: "Any URL or PDF to fetch, read this, fetch this page"
 ---
 
 # Read: Read Any URL or PDF
-
-Prefix your first line with 🥷 inline, not as its own paragraph.
 
 Fetch any URL or local PDF.
 

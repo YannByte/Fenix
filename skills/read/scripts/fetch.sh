@@ -16,10 +16,6 @@
 # Every tier writes a structured stderr line:
 #   [fetch] tier=<local|defuddle|jina> status=<ok|fail|skip> reason="..."
 #
-# Special thanks to joeseesun for the qiaomu-markdown-proxy project, which
-# inspired the proxy cascade design:
-# https://github.com/joeseesun/qiaomu-markdown-proxy
-#
 # Usage:
 #   fetch.sh <url> [proxy_url]
 #   fetch.sh --use-proxy <url> [proxy_url]
