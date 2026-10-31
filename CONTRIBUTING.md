@@ -4,11 +4,27 @@
 
 ## 新增 Skill
 
-1. 先明确要解决的具体问题，检查现有 Skill 是否已经覆盖。
-2. 在 `skills/` 下创建独立目录，编写 `SKILL.md`，说明用途、触发条件、前置条件和执行步骤。
+1. 先明确要解决的具体问题，检查[收录范围](SCOPE.md)和[技能清单](skills/README.md)。
+2. 在 `skills/` 下创建小写英文和连字符命名的独立目录。可复制 [Skill 模板](assets/skill-template/SKILL.md.template)为新目录中的 `SKILL.md`，替换名称、描述及示例正文。模板不属于可安装的 Skill。
 3. 按实际需要附带脚本、参考资料或模板，避免为尚无使用场景的内容增加结构。
 4. 在 `skills/README.md` 中添加名称、用途和入口。
 5. 使用公开或合成材料验证，说明已验证内容及限制。
+
+元数据遵循 [Agent Skills 规范](https://agentskills.io/specification)：`name` 为 1–64 个小写英文字母、数字或连字符，与目录名一致，不以连字符开头或结尾，也不包含连续连字符；`description` 为 1–1024 个字符的非空字符串，说明用途和触发条件。仓库版本只维护在 [VERSION](VERSION)，不在每个 Skill 中重复填写。
+
+技能清单使用 Markdown 表格，每项包含名称、用途和指向 `./<skill-name>/SKILL.md` 的相对链接。空目录、模板和仍待验证的构想不列为已收录 Skill。
+
+## 执行检查
+
+按 [README 的本地验证步骤](README.md#本地验证)安装开发依赖，然后运行：
+
+```sh
+make test PYTHON=.venv/bin/python
+```
+
+也可以分别运行 `make verify-docs`、`make verify-scripts` 或 `make verify-unit`，并传入同样的 `PYTHON` 参数。所有检查必须通过；检查器无法代替对触发条件、输出质量、来源许可证和敏感信息的人工审阅。
+
+含脚本的 Skill 需要补充并执行与实际行为相关的测试。开发检查只做 Python 语法检查，不执行技能脚本；其他语言按需要增加验证命令并在此声明依赖。
 
 ## 提交要求
 
@@ -16,3 +32,4 @@
 - 使用示例配置，不提交真实账号、密钥、私有地址或个人数据。
 - 文档使用仓库内相对链接，不依赖作者的本机目录。
 - 在 Pull Request 中说明解决的问题、最终行为和实际验证结果。
+- 提交前查看差异和未跟踪文件，只暂存本次任务文件。提交信息使用 `feat:`、`fix:`、`docs:`、`refactor:` 或 `chore:` 前缀。
