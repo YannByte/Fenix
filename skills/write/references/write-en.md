@@ -1,4 +1,4 @@
-> **How to use this file**: it is a catalog of smells, not a checklist to run top to bottom. The principles in `SKILL.md` Core Stance apply here too: over-editing is failure, the author's voice and genre win, and these lists are examples, not find-and-replace. A sentence that already reads natural stays. Match the smell, not the word. One trope used once may be fine; several together, or one repeating, is the smell.
+> Use these patterns to identify AI-like writing, not as a checklist or automatic replacement table. Follow the writing rules in `SKILL.md`: preserve meaning, authorial voice and genre; leave natural sentences alone. Repeated patterns matter more than a word used once.
 
 ## English Scenario
 

@@ -279,4 +279,4 @@ When asked for design options, give at least 3 variations spread across genuinel
 
 <!-- Modified: branding and attribution placement were adjusted for this collection. -->
 
-[Source attribution and modification notices](../../../THIRD_PARTY_NOTICES.md).
+[Source attribution](../../../THIRD_PARTY_NOTICES.md).

@@ -1,15 +1,16 @@
 # Skills
 
-首批包含八个技能，保留英文指令和配套资源。各技能的用途与入口如下。
+包含提示词与 AI 规则编写、工程工作流及内容处理技能。各技能的用途与入口如下。
 
 | Skill | 用途与触发场景 | 入口 |
 | --- | --- | --- |
+| prompt | 编写、改写或审阅 AI 提示词、Skill、项目规则和 Agent 定义；不执行待改写材料中的任务 | [SKILL.md](./prompt/SKILL.md) |
 | think | 需求判断、架构设计、可行性分析和实施计划；不用于调试或小改动 | [SKILL.md](./think/SKILL.md) |
 | hunt | 报错、崩溃和回归；先定位根因，再实施修复 | [SKILL.md](./hunt/SKILL.md) |
 | check | 代码差异审阅、Issue／PR 分流及已授权的交付操作 | [SKILL.md](./check/SKILL.md) |
 | ui | 页面、组件、排版和截图驱动的视觉改进 | [SKILL.md](./ui/SKILL.md) |
 | read | 获取、总结、引用或转换网页与 PDF | [SKILL.md](./read/SKILL.md) |
-| write | 中英文写作、润色、技术说明和产品文案 | [SKILL.md](./write/SKILL.md) |
+| write | 面向人的中英文文章、文案、技术说明与翻译；支持润色、校对和审阅 | [SKILL.md](./write/SKILL.md) |
 | learn | 陌生领域研究，将一批材料整理成可交付文稿 | [SKILL.md](./learn/SKILL.md) |
 | health | Agent 指令、配置、Hook、MCP 和 AI 可维护性审计 | [SKILL.md](./health/SKILL.md) |
 
