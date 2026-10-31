@@ -1,0 +1,7 @@
+Derived from Waza 3.41.0 by Tw93.
+Source: https://github.com/tw93/Waza/tree/df1ef2390e89d70dee07f928ac09aa7ba4b90299/skills/check
+Copyright (c) 2026 Tw93. See LICENSE.
+
+Fenix changes: moved when_to_use and dispatch_intent into metadata,
+and added license and upstream provenance fields to SKILL.md.
+Skill instructions and supporting scripts/references are unchanged.

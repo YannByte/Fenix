@@ -1,0 +1,13 @@
+Derived from Waza 3.41.0 by Tw93.
+Source: https://github.com/tw93/Waza/tree/df1ef2390e89d70dee07f928ac09aa7ba4b90299/skills/ui
+Copyright (c) 2026 Tw93. See LICENSE.
+
+Fenix changes: moved when_to_use and dispatch_intent into metadata,
+and added license and upstream provenance fields to SKILL.md.
+Skill instructions and supporting scripts/references are unchanged.
+
+Additional attribution from references/design-reference.md:
+- pbakaus/impeccable: adapted design rules, Apache-2.0; see licenses/impeccable-Apache-2.0.txt.
+- getdesign.md / VoltAgent/awesome-design-md: adapted DESIGN.md scaffold, MIT; see licenses/awesome-design-md-MIT.txt. Concept credited to Google Stitch.
+- Leonxlnx/taste-skill: inspiration for Content Authenticity, Multi-Card Alignment, and Strategic Omissions.
+Original source attribution is retained in references/design-reference.md.

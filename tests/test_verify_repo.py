@@ -121,6 +121,12 @@ class VerifyRepoTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn("VERSION", result.stderr)
 
+    def test_shell_syntax_is_checked_without_execution(self):
+        self.write("skills/example/scripts/example.sh", "exit 99\n")
+        self.assertEqual(verify_scripts(self.root), [])
+        self.write("skills/example/scripts/example.sh", "if true; then\n")
+        self.assertEqual(len(verify_scripts(self.root)), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

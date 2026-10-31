@@ -4,7 +4,7 @@
 
 把日常工作中可复用的方法整理成 Skill，逐步积累、验证和改进。
 
-首批 Skill 尚未收录。先查看[技能清单](skills/README.md)和[收录范围](SCOPE.md)；添加内容时使用[贡献指南](CONTRIBUTING.md)。
+首批收录 Waza 的八个核心技能，覆盖规划、调试、审阅、界面设计、阅读、写作、研究和 Agent 健康检查。使用入口和运行前提见[技能清单](skills/README.md)；添加内容时查看[收录范围](SCOPE.md)和[贡献指南](CONTRIBUTING.md)。
 
 ## 目录结构
 
@@ -31,7 +31,7 @@ Fenix/
 git clone https://github.com/YannByte/Fenix.git
 ```
 
-具体使用方式由每个 Skill 自己说明。目前没有可安装的 Skill、插件或安装包。
+具体使用方式由每个 Skill 自己说明，通用入口见[技能清单](skills/README.md#使用方式)。目前提供技能源文件，尚未发布插件或安装包。
 
 ## 本地验证
 
@@ -44,10 +44,10 @@ python3 -m venv .venv
 make test PYTHON=.venv/bin/python
 ```
 
-检查覆盖 Skill 元数据、技能清单入口、Markdown 相对链接、Python 脚本语法和检查器回归测试。检查不执行 Skill 内的脚本，也不验证网络链接、Markdown 锚点、宿主兼容性或任务效果；这些内容按 Skill 的实际场景另行验证。推送到 `main` 或提交 Pull Request 时，GitHub Actions 运行相同检查。
+检查覆盖 Skill 元数据、技能清单入口、Markdown 相对链接、Python／Bash 脚本语法，以及检查器和辅助脚本的回归测试。脚本行为使用临时目录、合成材料和本机 HTTP 服务验证，不调用真实账号或外部提取服务。网络链接、Markdown 锚点、Windows PowerShell、宿主兼容性和完整任务效果仍需按实际场景另行验证。推送到 `main` 或提交 Pull Request 时，GitHub Actions 运行相同检查。
 
 仓库版本统一维护在 [VERSION](VERSION)，当前为开发版本，尚未发布。仓库组织参考 [Waza](https://github.com/tw93/Waza)，详见[第三方来源](THIRD_PARTY_NOTICES.md)。
 
 ## 许可证
 
-[MIT](LICENSE)。引用或改编的第三方内容按其标注的许可证与署名要求处理。
+[MIT](LICENSE)。第三方内容保留各自的许可证与署名，详见[第三方来源](THIRD_PARTY_NOTICES.md)。单独分发 Skill 时需保留目录内的许可证、来源记录和附加声明。

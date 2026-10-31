@@ -3,6 +3,7 @@
 import argparse
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -145,6 +146,14 @@ def verify_scripts(root):
                 compile(path.read_bytes(), str(path), "exec")
             except SyntaxError as exc:
                 errors.append("{}: {}".format(path.relative_to(root), exc))
+        elif path.suffix == ".sh":
+            try:
+                result = subprocess.run(["bash", "-n", str(path)], capture_output=True, text=True)
+            except OSError as exc:
+                errors.append("{}: {}".format(path.relative_to(root), exc))
+                continue
+            if result.returncode:
+                errors.append("{}: {}".format(path.relative_to(root), result.stderr.strip()))
     return errors
 
 
@@ -156,7 +165,7 @@ def main():
     root = args.root.resolve()
     if args.scripts_only:
         errors = verify_scripts(root)
-        success = "Python syntax: OK (scripts were not executed)"
+        success = "Python/Bash syntax: OK (scripts were not executed)"
     else:
         errors, count = verify(root)
         success = "Repository: OK ({} skills; metadata and local link targets checked)".format(count)
