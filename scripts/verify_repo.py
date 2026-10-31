@@ -39,7 +39,7 @@ def source_files(root):
     for directory, folders, files in os.walk(root, followlinks=False):
         folders[:] = sorted(folder for folder in folders
                             if folder not in EXCLUDED
-                            and (not folder.startswith(".") or folder == ".github"))
+                            and (not folder.startswith(".") or folder in {".github", ".agents"}))
         for name in sorted(files):
             path = Path(directory) / name
             if not path.is_symlink():
@@ -88,18 +88,22 @@ def verify(root):
                      for target in catalog if not urlsplit(target).scheme}
     skill_count = 0
     skills = root / "skills"
-    for folder in sorted(skills.iterdir()) if skills.is_dir() else []:
+    project_skills = root / ".agents/skills"
+    folders = [(folder, True) for folder in skills.iterdir()] if skills.is_dir() else []
+    if project_skills.is_dir():
+        folders.extend((folder, False) for folder in project_skills.iterdir())
+    for folder, public in sorted(folders, key=lambda item: str(item[0])):
         if not folder.is_dir() or folder.name.startswith("."):
             continue
         if folder.is_symlink():
-            errors.append("skills/{}: symlinked skills are not supported".format(folder.name))
+            errors.append("{}: symlinked skills are not supported".format(folder.relative_to(root)))
             continue
         entry = folder / "SKILL.md"
         label = str(entry.relative_to(root))
         if not entry.is_file() or entry.is_symlink():
             errors.append(label + ": missing regular SKILL.md")
             continue
-        skill_count += 1
+        skill_count += int(public)
         text = entry.read_text(encoding="utf-8")
         match = re.match(r"\A---\r?\n(.*?)\r?\n---(?:\r?\n|$)(.*)\Z", text, re.DOTALL)
         if not match:
@@ -115,12 +119,14 @@ def verify(root):
         name = data.get("name")
         if not isinstance(name, str) or not NAME.fullmatch(name) or len(name) > 64 or name != folder.name:
             errors.append(label + ": name must match the directory and use 1–64 lowercase letters, digits or single hyphens")
+        elif not name.startswith("fenix-"):
+            errors.append(label + ": name must use the fenix- prefix")
         description = data.get("description")
         if not isinstance(description, str) or not description.strip() or len(description) > 1024:
             errors.append(label + ": description must be a non-empty string of at most 1024 characters")
         if not match.group(2).strip():
             errors.append(label + ": missing instructions after frontmatter")
-        if entry.resolve() not in catalog_files:
+        if public and entry.resolve() not in catalog_files:
             errors.append(label + ": missing link in skills/README.md")
 
     for path in source_files(root):

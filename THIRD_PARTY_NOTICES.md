@@ -1,5 +1,7 @@
 # 第三方来源
 
+- [YannByte/wombat](https://github.com/YannByte/wombat/tree/db820d2f39e9f546e59fca8db91deee78979d630)：仓库 Harness、项目工作流路由、分层验证与交付边界的设计参考，MIT。
+
 - [Tw93/Waza](https://github.com/tw93/Waza/tree/df1ef2390e89d70dee07f928ac09aa7ba4b90299)：首批八个技能、配套资源和部分开发检查的来源，MIT；许可证保留在各技能目录及 [tests/LICENSE.third-party](tests/LICENSE.third-party)。
 - [Fenng/tech-doc-style-chinese](https://github.com/Fenng/tech-doc-style-chinese/tree/b119d01c9bb7cd132b3c62fafdff34227c4410d1)：中文事实保真、术语、排版和技术说明规则，MIT；见 [chinese-writing-MIT.txt](skills/fenix-write/licenses/chinese-writing-MIT.txt)。
 - [Sentry prompt-optimizer](https://github.com/getsentry/skills/blob/d12f250460ffd961f549dbebf7eeb0cf4afd4c2e/skills/prompt-optimizer/SKILL.md)：提示词组织与评测方法参考。

@@ -23,9 +23,9 @@ class VerifyRepoTests(unittest.TestCase):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding="utf-8")
 
-    def skill(self, metadata="name: example\ndescription: |\n  Use for example tasks."):
-        self.write("skills/example/SKILL.md", "---\n" + metadata + "\n---\n# Instructions\n")
-        self.write("skills/README.md", "| [example](./example/SKILL.md) | Example tasks |\n")
+    def skill(self, metadata="name: fenix-example\ndescription: |\n  Use for example tasks."):
+        self.write("skills/fenix-example/SKILL.md", "---\n" + metadata + "\n---\n# Instructions\n")
+        self.write("skills/README.md", "| [fenix-example](./fenix-example/SKILL.md) | Example tasks |\n")
 
     def errors(self):
         return "\n".join(verify(self.root)[0])
@@ -47,13 +47,32 @@ class VerifyRepoTests(unittest.TestCase):
         self.skill("name: other\ndescription: Example")
         self.assertIn("name must match", self.errors())
 
+    def test_skill_name_requires_project_prefix(self):
+        self.write("skills/example/SKILL.md", "---\nname: example\ndescription: Example\n---\n# Instructions\n")
+        self.write("skills/README.md", "[example](./example/SKILL.md)\n")
+        self.assertIn("name must use the fenix- prefix", self.errors())
+
+    def test_project_skills_are_checked_without_public_catalog_entries(self):
+        self.skill()
+        self.write(".agents/skills/fenix-review/SKILL.md",
+                   "---\nname: fenix-review\ndescription: Project review\n---\n# Review\n")
+        self.assertEqual(verify(self.root), ([], 1))
+        self.write(".agents/skills/fenix-review/SKILL.md", "# Missing metadata\n")
+        self.assertIn(".agents/skills/fenix-review/SKILL.md: missing YAML frontmatter", self.errors())
+
+    def test_project_workflow_links_and_scripts_are_checked(self):
+        self.write(".agents/skills/fenix-review/references/review.md", "[missing](missing.md)\n")
+        self.assertIn(".agents/skills/fenix-review/references/review.md: missing link target", self.errors())
+        self.write(".agents/skills/fenix-review/scripts/bad.py", "def invalid(\n")
+        self.assertEqual(len(verify_scripts(self.root)), 1)
+
     def test_invalid_name_and_description(self):
         self.skill("name: example--bad\ndescription: false")
         self.assertIn("name must match", self.errors())
         self.assertIn("description must be", self.errors())
 
     def test_duplicate_and_malformed_yaml(self):
-        for metadata in ("name: example\nname: duplicate", "name: ["):
+        for metadata in ("name: fenix-example\nname: duplicate", "name: ["):
             with self.subTest(metadata=metadata):
                 self.skill(metadata)
                 self.assertIn("invalid YAML", self.errors())
@@ -62,14 +81,14 @@ class VerifyRepoTests(unittest.TestCase):
         self.skill()
         self.write("skills/README.md", "# Skills\n")
         self.assertIn("missing link in", self.errors())
-        (self.root / "skills/example/SKILL.md").unlink()
+        (self.root / "skills/fenix-example/SKILL.md").unlink()
         self.assertIn("missing regular SKILL.md", self.errors())
 
     def test_missing_frontmatter_and_body(self):
         self.skill()
-        self.write("skills/example/SKILL.md", "# No metadata\n")
+        self.write("skills/fenix-example/SKILL.md", "# No metadata\n")
         self.assertIn("missing YAML frontmatter", self.errors())
-        self.write("skills/example/SKILL.md", "---\nname: example\ndescription: Example\n---\n")
+        self.write("skills/fenix-example/SKILL.md", "---\nname: fenix-example\ndescription: Example\n---\n")
         self.assertIn("missing instructions", self.errors())
 
     def test_broken_links_and_reference_targets(self):
@@ -82,8 +101,8 @@ class VerifyRepoTests(unittest.TestCase):
         self.assertIn(".github/pull_request_template.md: missing link target", self.errors())
 
     def test_code_and_remote_links_are_ignored(self):
-        self.write("README.md", "```md\n[example](missing.md)\n```\n"
-                   "`[example](missing.md)`\n[external](https://example.com)\n[anchor](#example)\n")
+        self.write("README.md", "```md\n[fenix-example](missing.md)\n```\n"
+                   "`[fenix-example](missing.md)`\n[external](https://example.com)\n[anchor](#example)\n")
         self.assertEqual(self.errors(), "")
 
     def test_encoded_link_and_fragment(self):
@@ -105,12 +124,12 @@ class VerifyRepoTests(unittest.TestCase):
         self.assertIn("expected MAJOR.MINOR.PATCH", self.errors())
 
     def test_python_syntax_is_checked_without_execution(self):
-        self.write("skills/example/scripts/example.py", "raise RuntimeError('must not execute')\n")
+        self.write("skills/fenix-example/scripts/example.py", "raise RuntimeError('must not execute')\n")
         self.assertEqual(verify_scripts(self.root), [])
-        self.write("skills/example/scripts/example.py", "def broken(\n")
+        self.write("skills/fenix-example/scripts/example.py", "def broken(\n")
         self.assertEqual(len(verify_scripts(self.root)), 1)
         self.write(".venv/broken.py", "def broken(\n")
-        (self.root / "skills/example/scripts/example.py").unlink()
+        (self.root / "skills/fenix-example/scripts/example.py").unlink()
         self.assertEqual(verify_scripts(self.root), [])
 
     def test_cli_fails_for_invalid_repository(self):
@@ -122,9 +141,9 @@ class VerifyRepoTests(unittest.TestCase):
         self.assertIn("VERSION", result.stderr)
 
     def test_shell_syntax_is_checked_without_execution(self):
-        self.write("skills/example/scripts/example.sh", "exit 99\n")
+        self.write("skills/fenix-example/scripts/example.sh", "exit 99\n")
         self.assertEqual(verify_scripts(self.root), [])
-        self.write("skills/example/scripts/example.sh", "if true; then\n")
+        self.write("skills/fenix-example/scripts/example.sh", "if true; then\n")
         self.assertEqual(len(verify_scripts(self.root)), 1)
 
 

@@ -26,21 +26,14 @@ Agent 未自动加载 Skill 时，需要提供入口路径。使用宿主安装�
 
 ### Codex 本地安装
 
-从仓库根目录执行以下命令，将技能链接到 Codex 用户技能目录。链接保留完整资源及仓库中的来源文档；仓库需要保留在当前位置，修改会同步生效。目标名称已存在时跳过；需要更换来源时，先核对现有安装再处理。
+先按[README](../README.md#本地验证)准备开发依赖，再从仓库根目录预览和安装：
 
 ```sh
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-for skill in "$PWD"/skills/fenix-*; do
-  target="${CODEX_HOME:-$HOME/.codex}/skills/$(basename "$skill")"
-  if [ -e "$target" ] || [ -L "$target" ]; then
-    printf '已存在，跳过：%s\n' "$target"
-    continue
-  fi
-  ln -s "$skill" "$target"
-done
+make install-plan PYTHON=.venv/bin/python
+make install-local PYTHON=.venv/bin/python
 ```
 
-安装后可用 `$fenix-check` 等名称调用，下次对话轮次可用。这里提供的是 Codex 本地目录安装方式；其他宿主的安装流程尚未验证，仓库未提供插件市场条目、自动安装脚本或安装包。正文中的斜杠技能名表示路由意图，按当前宿主支持的方式调用。
+安装冲突、重复执行、链接更新和自定义目录规则见[本地安装约定](../docs/development.md#本地安装)。安装后可用 `$fenix-check` 等名称调用，下次对话轮次可用。其他宿主的安装流程尚未验证，仓库未提供插件市场条目或安装包。正文中的斜杠技能名表示路由意图，按当前宿主支持的方式调用。
 
 ## 运行前提与验证边界
 

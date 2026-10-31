@@ -16,7 +16,9 @@ Fenix/
 ├── LICENSE
 ├── VERSION
 ├── Makefile
+├── .agents/skills/
 ├── assets/skill-template/
+├── docs/
 ├── scripts/
 ├── tests/
 └── skills/
@@ -45,6 +47,8 @@ make test PYTHON=.venv/bin/python
 ```
 
 检查覆盖 Skill 元数据、技能清单入口、Markdown 相对链接、Python／Bash 脚本语法，以及检查器和辅助脚本的回归测试。脚本行为使用临时目录、合成材料和本机 HTTP 服务验证，不调用真实账号或外部提取服务。网络链接、Markdown 锚点、Windows PowerShell、宿主兼容性和完整任务效果仍需按实际场景另行验证。推送到 `main` 或提交 Pull Request 时，GitHub Actions 运行相同检查。
+
+仓库 Harness 的改动盘点、分层验证、审阅提交和本地安装入口见[开发与交付](docs/development.md)。项目工作流保留在 `.agents/skills/`，与公开分发的技能分开维护。
 
 仓库版本统一维护在 [VERSION](VERSION)，当前为开发版本，尚未发布。
 
