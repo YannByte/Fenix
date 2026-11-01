@@ -8,7 +8,7 @@
 | fenix-think | 需求判断、架构设计、可行性分析和实施计划；不用于调试或小改动 | [SKILL.md](./fenix-think/SKILL.md) |
 | fenix-hunt | 报错、崩溃和回归；先定位根因，再实施修复 | [SKILL.md](./fenix-hunt/SKILL.md) |
 | fenix-check | 代码差异审阅、Issue／PR 分流及已授权的交付操作 | [SKILL.md](./fenix-check/SKILL.md) |
-| fenix-ui | 页面、组件、排版和截图驱动的视觉改进 | [SKILL.md](./fenix-ui/SKILL.md) |
+| fenix-design | 面向用户与任务设计 UI、CLI 和 Skill＋CLI 产品，覆盖交互、原型、视觉与调用验证 | [SKILL.md](./fenix-design/SKILL.md) |
 | fenix-read | 获取、总结、引用或转换网页与 PDF | [SKILL.md](./fenix-read/SKILL.md) |
 | fenix-write | 面向人的中英文文章、文案、技术说明与翻译；支持润色、校对和审阅 | [SKILL.md](./fenix-write/SKILL.md) |
 | fenix-learn | 陌生领域研究，将一批材料整理成可交付文稿 | [SKILL.md](./fenix-learn/SKILL.md) |

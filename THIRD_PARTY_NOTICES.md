@@ -6,9 +6,14 @@
 - [Fenng/tech-doc-style-chinese](https://github.com/Fenng/tech-doc-style-chinese/tree/b119d01c9bb7cd132b3c62fafdff34227c4410d1)：中文事实保真、术语、排版和技术说明规则，MIT；见 [chinese-writing-MIT.txt](skills/fenix-write/licenses/chinese-writing-MIT.txt)。
 - [Sentry prompt-optimizer](https://github.com/getsentry/skills/blob/d12f250460ffd961f549dbebf7eeb0cf4afd4c2e/skills/prompt-optimizer/SKILL.md)：提示词组织与评测方法参考。
 - [Anthropic Skills](https://github.com/anthropics/skills/tree/ca45fc496a3436251f191354091d557da31c15b5)：参考 skill-creator 的技能写法和 prompt-audit 的指令审阅方法。
-- [pbakaus/impeccable](https://github.com/pbakaus/impeccable)：界面字体、配色、主题、动效及设计反模式规则的改编来源，Apache-2.0；见 [Apache-2.0.txt](skills/fenix-ui/licenses/Apache-2.0.txt)。
-- [getdesign.md](https://getdesign.md)／[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)：DESIGN.md 模板参考，概念署名 Google Stitch，MIT；见 [design-template-MIT.txt](skills/fenix-ui/licenses/design-template-MIT.txt)。
+- [Anthropic Knowledge Work Plugins · Engineering](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering)：系统设计、测试策略与技术文档技能的指令组织和简洁写法参考。
+- [pbakaus/impeccable](https://github.com/pbakaus/impeccable)：界面字体、配色、主题、动效及设计反模式规则的改编来源，Apache-2.0；见 [Apache-2.0.txt](skills/fenix-design/licenses/Apache-2.0.txt)。
+- [getdesign.md](https://getdesign.md)／[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)：DESIGN.md 模板参考，概念署名 Google Stitch，MIT；见 [design-template-MIT.txt](skills/fenix-design/licenses/design-template-MIT.txt)。
 - [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)：内容真实性、卡片对齐和策略性省略的灵感来源。
 - [joeseesun/qiaomu-markdown-proxy](https://github.com/joeseesun/qiaomu-markdown-proxy)：阅读脚本中的提取服务回退、飞书文档解析和微信文章提取思路参考。
 - [asd-ste100-skill 写作规则](https://github.com/danyuchn/asd-ste100-skill/blob/master/references/writing-rules.md)及[适用范围](https://github.com/danyuchn/asd-ste100-skill/blob/master/SKILL.md)：技术写作清晰表达与事实保留原则参考。
 - [Agent Skills 规范](https://agentskills.io/specification)：技能元数据和目录结构依据。
+- [Agent Skills 评测指南](https://agentskills.io/skill-creation/evaluating-skills)及 [Anthropic 工具设计实践](https://www.anthropic.com/research/writing-tools-for-agents)：任务样例、可调用原型与实际结果验证的方法参考。
+- [Command Line Interface Guidelines](https://clig.dev/)：CLI 帮助、输入输出、非交互执行和失败反馈的设计参考。
+- [a-dithya-b/agent-native-cli](https://github.com/a-dithya-b/agent-native-cli)：Agent 判断与确定性命令执行的分工、精简结果和命令可发现性参考。
+- [mattpocock/skills 的 prototype](https://github.com/mattpocock/skills/tree/main/skills/engineering/prototype)：围绕设计问题制作最小可试用原型、观察状态并记录结论的方法参考。

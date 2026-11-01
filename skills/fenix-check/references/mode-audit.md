@@ -1,58 +1,21 @@
-# Project Audit Mode (project-wide scorecard)
+# 整库质量审计
 
-Loaded from `check` Mode Picker when the request is a project-wide quality scorecard. Distinct from default review (diff-scoped) and triage (issue batching).
+用于检查项目整体质量或按请求评分，区别于单个差异审阅和 Issue 队列处理。沿用技能入口的范围、授权与证据要求；审计本身不授权修复。
 
-Single-pass project-wide quality assessment.
+## 取得上下文
 
-**Flow**
+先读取项目规则、README、验证入口与交付约定，明确用户要求的范围。按职责、入口、依赖和实际风险组织阅读，不把最大的几个文件当作整库覆盖。
 
-1. Run `python3 <skill-base-dir>/scripts/audit_signals.py --root <project>` from the target repo, with `<skill-base-dir>` replaced by this skill's base directory. The script emits labelled blocks (`=== FILE SIZE HOTSPOTS ===` ... `=== DENYLIST IN BUILD ===`) each ending with `status: PASS|WARN|FAIL|N/A`.
-2. Skim the largest source files surfaced by `FILE SIZE HOTSPOTS` (typically 3-5; stop sooner if the architecture is already clear).
-3. Read `CLAUDE.md` / `AGENTS.md` / `README.md` to learn the project's own stated conventions before judging it against generic ones. The repo's agent guidance itself is part of the audited surface: verify its commands and paths still exist, and report stale, conflicting, or deletable rules as findings.
-4. Apply the four-axis rubric below. Each axis is independently scored 0-10. Overall = arithmetic mean.
-5. Report every finding that moves an axis score, each with file:line citation when possible, severity (CRIT/STRUCT/INCR), and a one-line fix. Zero findings on an axis is a valid result; do not pad to a quota.
-6. Output to **terminal only**. Do not create files in the target repo. If the user follows up with "save it", offer `./docs/<project>-audit.md` then; default is ephemeral.
+需要辅助盘点时，从目标项目执行 `python3 "<skill-base-dir>/scripts/audit_signals.py" --root "<project>"`，先替换本技能目录与项目路径。输出包含带状态的线索；脚本状态、文件规模和计数不能直接当作缺陷或完整验收。
 
-**Rubric**
+检查项目指令中的命令、路径、规则是否有效，再核对实现与调用关系、验证覆盖、分发资源和相关风险。只报告能说明触发条件、影响和位置的问题；项目明确选择的取舍先核对依据，不机械把 WARN 升级为严重问题。
 
-| Axis | What it covers |
-|---|---|
-| Architecture | Module boundaries, coupling, abstraction layers vs flat duplication, single source of truth |
-| Code Quality | File size discipline, dedup, readability, comments on non-obvious behavior |
-| Engineering | Tests, CI gates, version coordination, install URL pinning, packaging posture |
-| Perf and Risk | Hazards, scope creep, distribution risk, privacy posture, third-party blast radius |
+`N/A` 表示该表面不存在，不能算通过；没有覆盖或证据不足的部分单独说明。不因没有发现问题而凑建议，也不为审计自动新增模板或文档。
 
-**Scoring anchors**
+## 评分与输出
 
-- 9-10: exceptional discipline, polish-only items
-- 7-8.5: solid with clear targeted improvements
-- 5-7: working but with structural debt
-- below 5: significant rework recommended
+默认按影响报告问题与最小改进方向，说明审阅范围、实际验证和未覆盖部分，不强制评分、固定建议数量或长表格。用户要求保存时写入指定位置，否则直接返回结论。
 
-A WARN that the project has explicitly justified (in its own docs or a comment) is not a finding; cite the justification and skip. Do not mechanically convert WARN to CRIT. A block with `status: N/A` means the surface does not exist (e.g. no packaging script); treat as silence, not as a positive signal.
+只有用户要求评分时才约定维度和量尺。可参考架构、代码质量、工程交付、性能与风险，但应按实际项目调整；每项分数给出依据与证据限制，不用算术平均掩盖关键阻塞。
 
-**Output template (terminal)**
-
-```
-Project: <name>
-Overall: X.X / 10
-
-Architecture: X / 10 -- one-line summary
-Code Quality: X / 10 -- one-line summary
-Engineering:  X / 10 -- one-line summary
-Perf & Risk:  X / 10 -- one-line summary
-
-Findings
-[CRIT] <file:line> -- <issue>
-       why: <reason grounded in signal or read>
-       fix: <concrete action>
-[STRUCT] ...
-[INCR] ...
-
-Top 3 highest-leverage moves
-1. ...
-2. ...
-3. ...
-```
-
-Stop after the report unless the user asks for follow-up implementation. Audit mode does not modify files in the target repo.
+存在已有修复授权时，完成审计后继续受影响的修复与验证；否则交付报告。需要扩大范围或解决关键取舍时再询问。

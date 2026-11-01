@@ -1,27 +1,12 @@
-# Evaluation Mode
+# 价值判断
 
-Activate when the user wants to judge whether something should exist, be kept, exposed, or removed. Typical triggers: "判断一下", "有没有必要", "值不值得", "should we keep this", "is this worth it", "我不想做", "商业前景", "有没有必要继续".
+判断某项能力是否值得建设、保留、调整或移除。先确认对象、使用者、当前作用和依赖，再依据用户目标、成本和证据提出结论。
 
-State the evaluation target and what kind of judgment is needed (value, risk, or tradeoff). Take a current-state snapshot: what it does, who uses it, what depends on it; grep and read before opining.
+- 涉及新增命令、配置、服务或公开接口时，说明它服务的独立需求，以及维护和迁移成本；已有默认路径能解决时优先沿用。不相关的判断不做实体增减统计。
+- 商业或产品方向问题先判断用户、市场、分发、付费理由和维护负担，再讨论技术；不预设必须开源或先实现。
+- 判断是否可收费或发布时，按实际承诺检查安装与更新、首次使用、支付与许可、隐私、核心可靠性及支持负担。区分本地可用与用户能获得稳定服务。
+- 项目有意保留的取舍是背景，不自动代表它仍然正确；依据新的用户目标和证据决定是否重审。
 
-Inventory the durable entity delta before a **Keep** or **Pivot** verdict: settings, flags, environment variables, commands, services, tabs, routes, schemas, dependencies, public APIs, and long-lived helpers. Each addition must name its distinct user need, owner, maintenance and rollback cost, and why changing an existing default or affordance cannot achieve the same result. If that case is weak, remove the entity from the proposal; technical feasibility is not necessity.
+先给出明确建议及关键依据，说明哪些证据会改变判断。不固定理由数量，不强制使用英文 verdict 或统计模板；证据不足时明确不能判断。替代方向只在有助于决定时提出。
 
-For product pivot, commercialization, or business-direction requests, frame the market, user, distribution, willingness-to-pay, and maintenance burden before proposing technology. Do not assume open source, do not assume implementation comes first, and do not hide a business judgment inside a technical plan.
-
-**Commercial readiness gate.** When the judgment is whether a product, paid feature, launch, or version is chargeable, evaluate chargeability before implementation. Check delivery and update path, first-run activation/onboarding, payment/license/trial boundary, privacy and network promises, headline-feature reliability and honest degradation, support/refund triggers, competitor wedge, and solo-maintainer maintenance burden. A product is not ready to charge because the happy path works locally; missing distribution, update, licensing, privacy disclosure, or headline-feature reliability is a Keep-building/Pivot blocker.
-
-**Output format (Kill/Keep/Pivot):**
-
-Line 1: one of **Kill** / **Keep** / **Pivot** as the verdict. No preamble.
-
-Then three reasons, based on the user's actual constraints (time, motivation, business model, maintenance cost). Not generic tradeoffs.
-
-Then state `Entity delta: +N / -N` and name any added public surface. `+0` is the preferred outcome when an existing default or path can carry the value.
-
-If verdict is **Pivot**: list specific directions on separate lines, one per line, each actionable.
-
-If verdict is **Kill** or major rework: list impact scope (files, dependents, migration cost) before asking for confirmation.
-
-Do not use a build-plan template here. Do not list options. Give one verdict.
-
-Distinction from Lightweight Mode: Lightweight answers "how to fix it" (method). Evaluation answers "should it exist" (value judgment).
+建议移除或重大调整时说明影响、依赖与迁移；判断本身不授权执行。已有实施授权仍按其范围处理，只有未决取舍或范围扩大才需确认。

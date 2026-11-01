@@ -1,51 +1,24 @@
-# Specialist Reviewer Activation Catalog
+# 专项审阅
 
-The orchestrator reads the full diff and uses judgment (not keyword matching) to decide which specialists to activate. This catalog defines the signals to reason about.
+根据实际改动选择专项检查，不按行数或文件数自动启动全部角色。正文中的范围、授权和问题证据要求同样适用。
 
-## Review Coordination
+## 选择专项
 
-Use the activation signals below. When the environment has an agent or sub-agent facility, launch all activated specialists in parallel, each with the full diff and its own persona brief. If no parallel reviewer facility exists, run the specialist passes sequentially in the same session.
+| 场景 | 资料 |
+| --- | --- |
+| 不可信输入、认证、加密、凭据、命令或路径构造 | [安全审阅](../agents/reviewer-security.md) |
+| 模块职责、公开接口、跨模块依赖或重要依赖关系改变 | [架构审阅](../agents/reviewer-architecture.md) |
 
-Merge findings: when two specialists flag the same code location, keep the higher severity and note cross-reviewer agreement. Findings on different code locations are never duplicates even if they share a theme.
+配置、文档或小改动也可能改变信任边界，不能只凭文件类型排除专项。已有证据足够时不重复启动检查。
 
-Every specialist finding is a claim to verify, not a fact to act on. For HIGH and CRITICAL claims, when the agent facility allows it, spawn one independent skeptic per finding whose only brief is to refute it against the actual code; a finding the skeptic refutes on direct read is dropped or downgraded regardless of which persona raised it. Without the facility, run the skeptic pass yourself: re-read the cited code this turn and confirm the claim is real and live, not already handled elsewhere, not consistent-by-design, not a latent-only risk labeled as a live bug. Parallel reviewers over-report from name-based inference and partial context; drop what dissolves on direct read, and cite the verification path before routing anything to Autofix or sign-off.
+## 协作与复核
 
-## Always-On (no condition required)
+有委派能力且允许使用时，可将独立范围交给专项审阅者；提供对应差异、必要上下文和明确范围。否则自行完成专项检查，不因没有额外 Agent 阻塞审阅。
 
-The base /fenix-check skill runs as always-on. Specialist reviewers are additive.
+专项返回的是候选问题。逐项核对实际代码、调用路径、已有保护和设计意图；高影响问题需要足够证据，必要时再用独立检查反驳候选结论。不要用主观置信度数字代替验证。
 
-## Conditional Specialists
+合并相同位置、相同原因的问题，保留不同位置的影响范围。等待已启动的审阅完成，或明确列出尚未覆盖的部分，不把分配任务当作完成检查。
 
-### Security Reviewer
+## 风险反查
 
-**Agent file:** `agents/reviewer-security.md`
-**Activate at:** Standard or Deep depth
-
-Activate when the diff changes code an attacker could reach or influence: trust-boundary input, auth or crypto, credentials, or query/shell/path construction.
-
-**Do not activate** for: pure UI changes, config file updates, test-only changes, documentation.
-
-### Architecture Reviewer
-
-**Agent file:** `agents/reviewer-architecture.md`
-**Activate at:** Standard or Deep depth
-
-Activate when the diff changes how modules relate: boundaries, public APIs or signatures, cross-module dependencies, or a major dependency, rather than logic inside one module.
-
-**Do not activate** for: single-file bug fixes, test additions, style changes, documentation updates.
-
-## Adversarial Pass (Deep only)
-
-No dedicated agent file. When the environment has an agent facility, the orchestrator runs the four angles as parallel agents, each blind to the others' findings; otherwise it runs them as an extra reasoning pass after all findings are collected.
-
-**Activate at:** Deep depth only; the Deep criteria live in SKILL.md's Scope table.
-
-Adversarial pass asks: "If I wanted to break this system through this specific diff, what would I do?"
-
-Four attack angles:
-1. **Assumption violation** -- What does this code assume is always true? (format, ordering, range) What happens when it is not?
-2. **Composition failures** -- What breaks when this new code interacts with the existing system under concurrent load or partial failure?
-3. **Cascade construction** -- What sequence of valid operations leads to an invalid state?
-4. **Abuse cases** -- What happens on the 1000th request, during a deployment, with two users editing the same resource simultaneously?
-
-Report adversarial findings with confidence score; the suppression threshold lives in SKILL.md's Adversarial Pass section.
+复杂状态、并发、破坏性操作或跨模块组合需要时，再检查：假设不成立、部分失败、连续合法操作产生非法状态，以及重复调用或部署中的边界。选择与当前风险有关的角度，不强制开启固定数量的 Agent。

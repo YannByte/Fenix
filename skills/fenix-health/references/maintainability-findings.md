@@ -1,94 +1,66 @@
-# AI Maintainability Structural Findings
+# 可维护性检查
 
-Loaded from `health` Output (the report step) for the AI-maintainability lane. Summary mode reads `AI MAINTAINABILITY SUMMARY`; deep audits and explicit code-rot requests read `DETAIL`. The agent-config lane (instruction drift) stays in `SKILL.md`. The `$HEALTH_SCRIPT` and `$HEALTH_LAUNCHER` variables below are the ones Step 1 already resolved.
+摘要读取 `AI MAINTAINABILITY SUMMARY`，深入检查按需读取 `DETAIL`。配置问题见[配置审计](config-audit.md)；下面的变量先按[采集与运行](collection.md)解析。
 
-**AI-maintainability gaps.** Use `AI MAINTAINABILITY SUMMARY` in summary mode and `AI MAINTAINABILITY DETAIL` in deep mode. Report `FAIL` when implementation, CI, generation, publishing, deployment, or another material risk makes substantive executable verification expected but `verifier_evidence` is empty, or when a required documentation reference is broken. `commands` is discovery inventory, not proof: targets or scripts listed under `hollow_verifiers` only print, perform shell setup, or exit and do not satisfy coverage. Report `WARN` for verified generated-mirror drift, referenced commands that do not exist, stable non-obvious constraints that relevant tasks cannot reach, recurring failures without a durable invariant and verifier, hollow wrappers that miss the real failure layer, durable rules available only in ignored/private overlays, or durable docs that preserve raw one-off reports, scorecards, dated line references, or diagnostic dumps instead of stable invariants. Also warn when a runtime supports path-scoped loading but unrelated sessions repeatedly pay for substantial domain-specific guidance that can be routed safely; move it to a path-scoped rule, nested instruction file, or skill without deleting its behavioral value. `context_status: UNKNOWN` means implementation or CI risk exists but tracked context evidence is absent; inspect the actual risk before deciding whether a routed invariant is needed. `NOT_APPLICABLE` means the collector observed no implementation/CI context need. Neither status justifies a fabricated clean bill or a map requirement. The action for stale reports is to extract stable rules into public instructions, rules, references, or verifier scripts, then remove or archive the transient report.
+## 判断证据
 
-**Conversation-derived guidance.** When a health audit reads recent agent conversations, do not recommend copying the conversation or a scorecard into docs. Recommend a candidate-matrix pass instead:
+- `commands` 是发现到的命令，不证明检查实际执行。核对默认入口是否覆盖重要路径，跳过、空结果和仅打印成功的目标不算有效验证。
+- `verifier_evidence` 缺失、`hollow_verifiers` 或 `wrapper_findings` 需要结合实际改动判断。只有重要风险需要验证却确实缺失时才报告，不因缺少 Makefile 或某种文件结构判为失败。
+- `context_status: UNKNOWN` 需要继续核对约束与风险，`NOT_APPLICABLE` 不代表已全面验收。文件大小、TODO 数量和模块形状只是调查线索。
+- 对生成物漂移、失效命令和规则不可达，指出实际位置、影响及最小修复。不要从采集器统计直接提出大范围重构。
 
-| Field | Question |
-|---|---|
-| Independent recurrence | Were cloned prompts, retries, automated fan-out sessions, pasted assistant output, and platform-resume messages collapsed into one underlying event? |
-| Repeated failure | Did this recur across fixes, releases, agents, or user reports? |
-| Durable invariant | Can the lesson be stated as a stable rule, not a dated incident summary? |
-| Target layer | Should it live in project instructions, a skill, a global rule, or private memory? |
-| Verifier | Is there a deterministic command, script, artifact check, or runtime smoke that can enforce it? |
-| Redaction risk | Does the lesson require local paths, issue numbers, customer details, machine state, secrets, or unpublished release facts? |
+## 规则与重复故障
 
-Layering rule: project-specific commands, app names, artifact names, and release rituals stay in the project; reusable workflows such as cancelled-release review gates or native-freeze evidence ladders belong in skills; universal honesty and verification rules belong in global CLAUDE/AGENTS; private user preferences and one-machine facts stay in memory. If the lesson cannot pass the redaction-risk field, keep it out of public guidance.
+从会话提炼规则时，先区分独立复发与同一次事件的复制、重试或转发。核对稳定约束、适用范围、证据、目标层级、可行验证与脱敏风险，不复制原始会话或评分报告。
 
-Scope by load surface, not just by layer. A rule kept in the project still pays context on every session unless it is bound to where it applies: language and framework rules carry file-type `paths` scope, project-domain rules bind to their source directories (`paths` frontmatter or a nested-directory `CLAUDE.md`), and only genuinely cross-cutting constraints load unconditionally in the always-loaded root. A rule that only matters under one path does not belong in an always-loaded file.
+项目命令和分发约定留在项目；可复用工作方法放在技能；个人偏好和单机事实按其授权范围保留。按宿主实际支持的机制，让专项规则只在相关任务中可达，不机械推荐某种 `paths` 字段或嵌套文件名。
 
-**Concentrated fix chains.** Run `git -c core.fsmonitor=false log --oneline --since='2 weeks ago' | grep -i fix` and group by area (the prefix before `:` or `(`). Repetition is a lead, not a finding: read enough evidence to confirm that several fixes converge on the same invariant or failure layer rather than unrelated work sharing a prefix. Report a Structural `WARN` only after that validation, naming the recurring failure and recommending the narrowest routed rule plus executable verifier that would have prevented it.
+需要调查重复修复时可读取近期提交并按区域归类；时间窗口由任务决定。同一前缀下的多个 fix 不等于同一故障，需核对具体原因。已公开缺陷缺少追踪或回归保护时，可以建议有明确用途的记录与检查，不要求每个项目都有事故台账或热点地图。
 
-When those fixes repair defects that reached users or a published build and the project keeps no incident ledger (or keeps one its checks never validate), add one Incremental note recommending a ledger row per such defect with the layer that missed it and the test that catches it now, as described by `check`'s incident-ledger reference. A project without user-facing fixes in the window gets no note; the absence of a ledger alone is not a finding.
+## 检查入口
 
-**Non-obvious constraint reachability and risk-backed hotspot ownership.** File size and module shape do not create documentation requirements. When real failures or high-consequence paths concentrate in an area and expose a stable boundary that cannot be recovered cheaply from code, verify that the relevant task can reach a concise ownership rule and the executable check that locks it. Report the unreachable constraint or missing verifier, not an absent blanket "hotspot map".
+从目标项目根目录执行，使用采集资料已解析的变量。
 
-**Missing stable verifier entrypoint.** Treat `wrapper_findings` as discovery leads. Check the documented default and its executable coverage across package scripts, native build tools, task runners, scripts, and CI; a Makefile is not required. Report a Structural `WARN` only when fragmented checks cause required verification to be missed and no usable default covers it. A named target that only prints success does not supply verification.
-
-Quick check from the project root, reusing `$HEALTH_SCRIPT` resolved in Step 1. Run standalone, it prints the same sections without the `AI MAINTAINABILITY SUMMARY` wrapper, so its first line is `=== PROJECT SHAPE ===`:
-
-```powershell
-& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" maintainability . summary
-```
-
-On Linux and macOS:
+macOS／Linux 摘要与深入检查：
 
 ```bash
 BASH_ENV= ENV= /bin/bash -p "${HEALTH_SCRIPT%/*}/check-maintainability.sh" . summary
-```
-
-For deep audits:
-
-```powershell
-& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" maintainability . deep
-```
-
-On Linux and macOS:
-
-```bash
 BASH_ENV= ENV= /bin/bash -p "${HEALTH_SCRIPT%/*}/check-maintainability.sh" . deep
 ```
 
-Keep actions concrete and non-invasive: add or fix the smallest useful routed instruction surface, add one executable validation command at the real failure layer, repair a generated-mirror check, or repair the broken reference. Split only when the boundary is already clear. Do not propose broad rewrites from the script output alone.
-
-**Broken doc references.** Scan `AGENTS.md`, `CLAUDE.md`, `.claude/rules/*.md`, and every `.claude/skills/*/SKILL.md` for references shaped like `@<path>`, `~/.claude/rules/<name>.md`, `~/.claude/skills/<name>/`, `docs/<name>.md`, or `references/<name>.md`. For each match, check that the target exists on disk. Report every "referenced but missing" pointer with the source file and line.
-
-Common offenders:
-- A project-level rule references a global rule file that was never created (e.g. `~/.claude/rules/swift.md`).
-- A `CLAUDE.md` uses an `@AGENTS.md` placeholder but the actual `AGENTS.md` is missing or empty.
-- A skill body references `references/<name>.md` but only `references/<name>-v2.md` exists.
-- A rule file references a deleted skill path.
-
-Quick check from the project root, reusing `$HEALTH_SCRIPT` resolved in Step 1:
+Windows 对应入口：
 
 ```powershell
-& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" doc-refs .
+& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" maintainability . summary
+& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" maintainability . deep
 ```
 
-On Linux and macOS:
+按所选深度执行其中一个，不要求连续运行两个。
+
+## 文档引用
+
+核对指令、技能与文档中被任务依赖的路径，区分真实引用和示例。路径存在不代表目标语义仍然正确，还要确认它包含被引用的规则。
 
 ```bash
 BASH_ENV= ENV= /bin/bash -p "${HEALTH_SCRIPT%/*}/check-doc-refs.sh" .
 ```
 
-The checker resolves `@...` and `docs/...` from the project root, expands `~`, resolves `references/...` from each `.claude/skills/<name>/SKILL.md` directory, checks every reference on a line, skips fenced code examples, and exits non-zero when any target is missing.
-
-Report missing references as Structural findings, not Critical, unless the missing file is named as a hard dependency (e.g. `release.md` for the project's release skill).
-
-**Broken Markdown references.** In deep mode, `check-maintainability.sh` also scans repository Markdown links. Report these as Structural findings when they point to missing local files, especially design, security, release, or handoff docs that agents may follow during future work.
-
-**Stale verifier cache output.** If validation output points at a deleted temp worktree or non-existent `/tmp` / `/private/tmp` file, parse the captured log with:
-
 ```powershell
-& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" verifier-output . <log-file>
+& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" doc-refs .
 ```
 
-On Linux and macOS:
+深入可维护性扫描还检查仓库 Markdown 本地链接。辅助检查有其可识别范围；不能从没有报错推断所有行内路径、章节或跨技能模式都有效。
+
+## 过期验证输出
+
+已有验证日志引用已删除工作树、临时文件或旧路径时，检查日志来源与当前入口：
 
 ```bash
-BASH_ENV= ENV= /bin/bash -p "${HEALTH_SCRIPT%/*}/check-verifier-output.sh" . <log-file>
+BASH_ENV= ENV= /bin/bash -p "${HEALTH_SCRIPT%/*}/check-verifier-output.sh" . "<log-file>"
 ```
 
-Only use this script for existing command output supplied by the user or generated during the current audit. Do not run project tests just to feed this checker. Known actions include `golangci-lint cache clean`, `go clean -cache -testcache`, and `npm cache verify`; unknown tools get a diagnostic rerun action.
+```powershell
+& "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" verifier-output . "<log-file>"
+```
+
+只分析用户提供或本轮已有的日志，不为喂给检查器而运行项目测试。缓存清理是候选处置，实际执行需符合授权与证据，不能仅凭过期路径就删除缓存。

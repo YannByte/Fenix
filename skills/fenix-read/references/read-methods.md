@@ -36,7 +36,7 @@ Do not send authenticated, internal, or otherwise sensitive URLs to third-party 
 
 ## DeepSeek Search and Fetch
 
-Needs `DEEPSEEK_API_KEY` from the DeepSeek platform, exported in the shell profile. Without it the script exits 2 and sends nothing.
+通过当前任务已授权的环境提供 `DEEPSEEK_API_KEY`，不要求写入永久 Shell 配置。缺少凭据时脚本退出 2，不发送请求。
 
 ```bash
 python3 "$READ_SCRIPT_DIR/deepseek.py" search "{query}" --count 10
@@ -45,7 +45,7 @@ python3 "$READ_SCRIPT_DIR/deepseek.py" fetch "{url}"
 
 - `search` prints numbered results with URL, site, date, `authority` (0-4, 3+ is highly authoritative) and `score` (0-3, 1.5+ is a strong match), plus a 600-800 character summary. Summaries are DeepSeek's index-time snapshot, so read the page before quoting a fact from it.
 - The query is 1-128 characters and supports operators such as `site:`, `lang:` and `after:`. `--content` adds page bodies; `--json` returns the raw response.
-- Each successful request is billed; failed, empty and timed-out requests are not. Plan the query set before running a batch.
+- 费用按服务提供方当前规则判断。客户端失败、空结果或超时不能证明服务端未处理或未计费；批量调用前规划必要查询，不将超时直接当作可无成本重试。
 
 ## GitHub URLs
 

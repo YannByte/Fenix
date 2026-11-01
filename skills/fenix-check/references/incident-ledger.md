@@ -30,7 +30,7 @@ The ledger is the regression suite for review itself. Rerun it when a review pro
 1. `incident_ledger.py --plan` prints each row's pre-fix revision (`<Fixed>^`) and the files the fix touched.
 2. Run the changed reviewer on those files as they were at that revision, from a detached worktree, without telling it the symptom.
 3. Count recovered rows: a row is recovered when a finding names the defect at the right place with a trigger that matches the symptom. Report recovered over total, per layer, beside the previous run's count.
-4. Run the same reviewer on a few known-clean changes (merged changes with no later fix touching them). Every finding there is noise; report the count beside the recovered rows. A reviewer that recovers more rows by also doubling noise is not better.
+4. 使用已经过独立检查、具有明确正确性依据的正常改动作为对照。已合并且没有后续修复记录，不足以证明不存在缺陷。逐条复核对照中的发现，区分真实遗漏缺陷与误报，再报告误报数和未决项；不要为了提高指标压掉有效问题。
 
 A drop in recovered rows blocks adopting the change until explained. Record the run's counts where the project keeps review history, not in the ledger rows.
 

@@ -10,17 +10,11 @@ For race conditions, flicker, or intermittent failures, also capture event ident
 
 ## Runner-Only Failures
 
-When a script fails only under a specific runner (make target, CI job, test harness, cron) but passes standalone, do not edit the script with debug hacks you might forget to remove. Inject tracing from the outside via the environment the runner already passes through:
+当脚本只在 Make、CI 或其他运行器中失败时，先比较工作目录、输入、退出状态和环境差异。优先在最小复现中记录必要的边界状态，不直接对整条流水线开启命令跟踪。
 
-```bash
-# xtrace-env.sh: sourced by every non-interactive bash via BASH_ENV
-exec 19>>/path/to/persistent/xtrace.log
-export BASH_XTRACEFD=19
-export PS4='+ [$0:$LINENO] '
-set -x
-```
+确需 `set -x` 时，只在已隔离、确认不含凭据或个人数据的最小范围启用，敏感步骤前关闭。Shell 会在变量展开后记录命令，原始输出可能包含请求头、Token 或完整参数；事后脱敏不能撤销已经输出的泄露。先用合成值确认记录范围、输出位置与关闭方式。
 
-Run the failing pipeline as `BASH_ENV=/path/to/xtrace-env.sh make test` (or the runner's equivalent). Every bash the runner spawns appends `file:line`-stamped traces to one persistent file, surviving the runner's temp-dir cleanup, so the exact dying line is on record even when the failure needs the full pipeline to reproduce. Guard the injection with a sentinel variable if nested shells would re-source it, and delete the env file when done.
+核对实际 Bash 版本支持的跟踪功能，不能假定所有非交互 Shell 都使用相同机制。只在当前任务的子进程中配置诊断，不修改永久 Shell 配置；日志限制为必要内容和长度，并按任务约定保存或清理。不能排除敏感展开时，改用明确选择字段的诊断。
 
 ## Native App Freeze Mode
 

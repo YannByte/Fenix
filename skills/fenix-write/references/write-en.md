@@ -15,7 +15,7 @@ Eliminate predictable AI writing patterns. Write like a human: varied, imperfect
 7. **Trust readers.** Cut hand-holding, but keep uncertainty, attribution and conditions that limit a claim.
 8. **Preserve emotional meaning.** A personal conviction or heartfelt ending can sound quotable and still belong. Keep its warmth and force; cut added stock morals, not the author's feelings. Translation must carry the emotion as well as the facts.
 9. **Do not replace one formula with another.** “Human” does not mean slangy, quirky, or performatively casual.
-10. **No emoji.** Remove any emoji from the text being edited.
+10. **Use emoji according to purpose and voice.** Remove gratuitous emphasis by default; preserve quoted emoji, deliberate authorial expression, and emoji required by the user, genre, or channel.
 
 ### Word Choice
 

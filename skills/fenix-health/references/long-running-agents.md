@@ -1,14 +1,10 @@
-# Long-Running Agent Stop Conditions
+# 长期运行的停止与恢复
 
-Loaded from `health` Step 1c when the project uses `/loop`, autonomous agents, or any long-running agent flow. Skip entirely for projects without one.
+只检查实际存在长期循环、自主执行或后台任务的项目。停止条件应按实际风险、成本与任务进展确定，不凭固定失败次数推定根因或强制结束。
 
-The project must define explicit stop conditions. An agent that never stops is a budget and safety incident waiting to happen.
+- **授权与边界**：遇到未获授权的写入、成本或范围扩大时，不继续相关动作；缺少凭据、访问或必要用户选择时说明具体阻塞。
+- **无进展**：同一操作和同一结果反复出现、没有新证据时，停止盲目重复，调整探针、方法或恢复路径。有新证据且仍在范围内时可以继续诊断。
+- **资源与时间**：沿用项目或用户已指定的预算、超时与重试上限。未指定时根据操作风险设定有界尝试，避免无限循环；不把本地一次超时当作远端写入失败。
+- **完成与恢复**：有可检查的任务完成条件和状态记录。涉及外部写入时，先查询实际状态，再决定是否重试，避免重复操作。
 
-Audit for these four hard stop signals; flag the absence of each as a Structural finding:
-
-1. **No progress across two consecutive checkpoints.** Same files touched, same errors logged, no new commits/tests/output. Recommend killing the loop and surfacing the state, not retrying.
-2. **Repeated identical failure.** Same stack trace, same error message, same failed assertion three times in a row means the hypothesis is wrong; more attempts will not help.
-3. **Cost or token budget exceeded.** Project should declare a per-run budget (tokens, API spend, wall-clock minutes). Loop exits when the budget is hit, not when work is done.
-4. **External blockers.** Merge conflict on the target branch, dependency lock the agent cannot resolve, missing credential, network unreachable. Any of these halt the loop and ask the user, not retry forever.
-
-The stop conditions should live in tracked project docs (`AGENTS.md`, the loop's launch script, or a dedicated config), not only in the agent's prompt. Prompts are forgettable; tracked config is enforceable. Recommend hooks (PostToolUse on the relevant tools) over prompt instructions when the project supports them: a hook physically cannot be skipped, a prompt instruction can. Confirm the host's hook coverage before recommending one: some agents only fire PostToolUse for a subset of tools (for example, a runtime may match shell/Bash only), so a fixup that must run after file edits belongs on a Stop or session-end hook there instead.
+核对这些边界是否对实际执行入口生效。宿主支持 Hook 或运行时约束时，可说明其覆盖、绕过和误报限制；提示词、静态文件或 Hook 存在本身都不能证明已强制执行。不要为了审计擅自添加控制或启动任务。

@@ -1,26 +1,27 @@
-# Triage Mode (issue / PR queues)
+# Issue／PR 队列处理
 
-Loaded from `check` Mode Picker when the request is issue/PR triage. Shared review surface (Scope, Hard Rules, Hard Stops, Autofix, Specialist Review, Verification, Sign-off) still applies from `SKILL.md`.
+沿用[技能入口](../SKILL.md)的范围、授权和证据要求。分流本身只报告建议；修复、评论、关闭、修改贡献者分支和合并分别按已有授权执行。
 
-Activate when the user mentions: issue, PR, "review all", triage, "batch", or "批量处理". Skip the diff flow and run this instead.
+## 盘点与判断
 
-**Action-first rule:** Items with a clear disposition (already fixed, duplicate, already released) get acted on immediately without analysis paragraphs. When analyzing screenshots or images, state what you see and the suggested action in one message. Only ask the user when the disposition is genuinely ambiguous.
+从项目文档确认托管平台与可用工具，不默认所有项目使用 GitHub。记录初始队列的具体编号；用户只要求某几个事项时不扩展到全部队列。
 
-**Bundled request classification:** When one issue, PR, or support thread contains several asks, split them before acting: core bug, existing affordance, cosmetic preference, and out-of-scope request. Answer existing affordances with the current path and assess each remaining ask against the maintainer's accepted scope. Classification does not cancel an explicitly requested cosmetic fix or authorize removing an accepted feature; record a separate disposition for every ask.
+逐项读取请求、实际实现、验证与分发状态。一个 Issue 包含多个要求时分别判断：真实故障、已有能力、待改进偏好和范围外请求。已有入口要给实际使用方式，不重复实现。
 
-**Status answer order:** For "都解决了吗", "is this fixed", "is this ready", or similar status checks, answer in this order: code or commit state, branch or CI state, release artifact or registry state, then public issue or PR state. Do not collapse fixed-on-main, available in pre-release, next stable release, and already shipped.
+区分已公开分发、已在主分支修复但尚未分发、预览可用、计划处理与尚需证据。关闭条件沿用项目约定和用户要求，不因“本地已修复”直接宣称用户已可升级。
 
-**Flow:** Identify the project's issue/PR host from public context and use that platform's CLI/API; if none exists, stop and report the missing integration instead of pretending GitHub commands apply. Freeze the initial queue as exact IDs plus counts before acting. For each open item, check current state against the project's release boundary: latest public release, main branch, preview/nightly/beta channel, registry/appcast, and target issue/PR status. Already in a public release or documented pre-release channel: close with that exact upgrade path. Fixed on `main` but unreleased: reply "已修复，等下一个版本 release" and close only when project convention or the current user request allows fixed-on-main closure, otherwise leave it open with the next-release note. No fix yet: analyze and act. Fix now if possible (`fix: closes #N` commit); for valid-but-unreleased items acknowledge and leave open; for invalid items give a one-two sentence reason and close.
+无法复现、日志缺失或暂时无法修复不等于请求无效。给出最小诊断或证据缺口；未获授权时只拟稿，不发送请求。
 
-Before final conclusions in a live queue, refresh the issue/PR list once more and re-read any item that changed during the run. Reconcile every initial ID as done, deferred, or blocked, then report the final IDs and counts; list newly arrived items separately. If evidence is incomplete, hold the item instead of closing it on a guess. Missing logs, inability to reproduce, or inability to fix now do not establish invalidity or a not-planned decision. State the missing evidence and the smallest next diagnostic step; send that request only within the user's authorization.
+## PR 处理
 
-**PR handling:** Read the check state as a count, not a color: zero check runs with a non-green mergeability status means nothing was verified, not that something failed, and a contributor's "CI is green" may refer to a different base than their patch. Reproduce the verification locally before merging, and say which layer the green came from.
+读取差异、基线、检查数量和实际状态。零检查不代表通过；贡献者提供的通过结果也需确认对应提交、环境和目标检查。按项目要求核对验证，避免重复无关测试。
 
-Keep PRs with unresolved evidence in a pending state. Once the evidence supports a final decision, name one of three dispositions in the analysis output: merge as written, push fixes onto the contributor's branch then merge, or close as not planned. "Not mergeable as written" without naming the fix-on-their-branch option is an incomplete triage, and it is the most common one to skip because the patch's flaws are the most visible thing about it. If the PR direction is accepted but the patch needs changes, prefer pushing the maintainer's fixes to the contributor's PR branch and then merging the PR. Check `maintainerCanModify` first, then confirm the push remote, target branch, and current HEAD immediately before pushing so you do not overwrite contributor work or push maintainer fixes to the wrong repository. If branch edits are not allowed, ask the contributor to enable maintainer edits or push the needed revision; only fall back to a separate maintainer commit when timing or release safety requires it, and say so in the PR. Close without merging only when the direction is rejected, unsafe, no longer needed, or explicitly not part of the project's scope. Do not silently absorb an accepted PR into `main` and close it.
+方向接受时判断可原样合并还是需要修改。确需维护者修改贡献分支时先确认平台允许修改、授权范围、远端和当前提交，避免推错仓库或覆盖其他工作。不能直接修改时保留 PR 并说明可行路径，不静默吸收补丁后关闭。
 
-**Public replies:** load `references/public-reply.md` for login resolution, edit-or-new-comment, read-back, and closure criteria; the reply body follows `/fenix-write` Public Reply Mode.
+方向被拒绝、风险不可接受或请求已失效时，说明具体依据。已确定的项目取舍可作为判断背景，但新目标或证据可以使其重新评估。
 
-**Sign-off line (append to standard sign-off):**
-```
-triage:           N reviewed, N closed, N deferred
-```
+## 跟进与汇总
+
+公开操作使用[回复流程](public-reply.md)，交付相关操作使用[交付流程](mode-ship.md)。操作前重读目标，操作后读回结果。
+
+批量任务结束前刷新相关队列，将初始事项逐项对上已处理、待补证据或受阻状态；新出现的事项单列。按需要报告数量，不强制附加统计模板。

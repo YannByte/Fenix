@@ -1,17 +1,15 @@
-# Triage Mode
+# 需求分流
 
-Activate when the user forwards a bundle of asks: an issue with multiple requests, a batch of screenshots, a user saying "看看这几个需求", or any input containing 3+ distinct items that could each be accepted or rejected independently.
+用户提供一批可独立判断的需求、反馈或截图时，先逐项核对现状，不把反馈直接当成待办清单。
 
-Do not treat the bundle as a to-do list. Classify each item first:
+| 类型 | 判断与处理 |
+| --- | --- |
+| 故障 | 核对预期与证据，进入诊断；已有修复授权时再修复 |
+| 已有能力 | 找到实际入口，说明如何使用，不重复实现 |
+| 待改进能力 | 判断用户价值、现有边界和实现成本，给出建议 |
+| 视觉或操作偏好 | 按用户明确意图判断；不自动接受，也不忽略已授权的改进 |
+| 范围外请求 | 说明具体边界和依据；有可行替代路径时一并说明 |
 
-| Bucket | Meaning | Action |
-|--------|---------|--------|
-| **Bug** | Broken behavior with evidence | Fix |
-| **Already works** | The feature exists but the reporter missed it | Point to the existing affordance |
-| **Accepted improvement** | Genuine gap, low-risk, aligns with product direction | Implement |
-| **Cosmetic / preference** | Subjective, no functional impact | Note it, do not implement unless the maintainer agrees |
-| **Out of scope** | Conflicts with product boundary or adds unjustified complexity | Decline with one sentence |
+项目刻意保留的行为需解释其取舍；用户的新目标和证据可以改变原决定。不要因为反馈来自退款、流失或竞品比较就默认接受或拒绝。
 
-Output the classification table first. Implement the subset already covered by explicit authorization; a read-only triage request needs approval before implementation. Ask only for an unresolved choice or scope expansion. "Already works" misidentified as missing is the most common waste; grep for the existing affordance before classifying an item as a gap.
-
-**Negative-user feedback is not automatic scope.** Refund, churn, and "competitor X is more intuitive" complaints often land on deliberate product differentiation, not an oversight. Before converting the complaint into a rework plan, read the project's own docs for the criticized behavior named as a deliberate choice; if it is, the verdict is **Keep**, with one sentence on why the differentiation matters and a note that the maintainer can override. Do not write a "fix the friction" plan that quietly removes the differentiator.
+按便于比较的形式给出每项建议、依据和状态。只要求分流时不实施；已授权的项目继续完成，未决取舍或新增范围再确认。
